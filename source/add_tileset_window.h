@@ -15,34 +15,38 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////////////
 
-#ifndef RME_EXTENSION_H_
-#define RME_EXTENSION_H_
+#ifndef RME_ADD_TILESET_WINDOW_H_
+#define RME_ADD_TILESET_WINDOW_H_
 
-#include "tileset.h"
-#include "client_version.h"
+#include "main.h"
 
-class MaterialsExtension {
+#include "common_windows.h"
+
+class ContainerItemButton;
+class ContainerItemPopupMenu;
+
+class AddTilesetWindow : public ObjectPropertiesWindowBase {
 public:
-	MaterialsExtension(std::string name, std::string author, std::string description);
-	~MaterialsExtension();
+	AddTilesetWindow(wxWindow* parent, TilesetCategoryType categoryType, wxPoint = wxDefaultPosition);
 
-	void addVersion(const std::string &versionString);
-	bool isForVersion(uint16_t versionId);
-	std::string getVersionString();
+	void OnItemClicked(wxMouseEvent &event);
+	void SetItemIdToItemButton(uint16_t id);
+	void OnChangeItemId(wxCommandEvent &WXUNUSED(event));
 
-	std::string name;
-	std::string url;
-	std::string author;
-	std::string author_url;
-	std::string description;
-	bool for_all_versions;
-	ClientVersionList version_list;
+	void OnClickOK(wxCommandEvent &);
+	void OnClickCancel(wxCommandEvent &);
 
 private:
-	MaterialsExtension(const MaterialsExtension &);
-	MaterialsExtension &operator=(const MaterialsExtension &);
-};
+	wxTextCtrl* tileset_name_field;
+	wxSpinCtrl* item_id_field;
 
-typedef std::vector<MaterialsExtension*> MaterialsExtensionList;
+	wxStaticText* item_id_label;
+	wxStaticText* item_name_label;
+
+	TilesetCategoryType category_type;
+	DCButton* item_button;
+
+	DECLARE_EVENT_TABLE();
+};
 
 #endif

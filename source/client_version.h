@@ -83,8 +83,7 @@ enum ClientVersions {
 };
 
 // OTBM versions
-enum MapVersionID
-{
+enum MapVersionID {
 	MAP_OTBM_UNKNOWN = -1,
 	MAP_OTBM_1 = 0,
 	MAP_OTBM_2 = 1,
@@ -93,24 +92,23 @@ enum MapVersionID
 };
 
 // The composed version of a otbm file (otbm version, client version)
-struct MapVersion
-{
-	MapVersion() : otbm(MAP_OTBM_1), client(CLIENT_VERSION_NONE) {}
-	MapVersion(MapVersionID m, ClientVersionID c) : otbm(m), client(c) {}
+struct MapVersion {
+	MapVersion() :
+		otbm(MAP_OTBM_1), client(CLIENT_VERSION_NONE) { }
+	MapVersion(MapVersionID m, ClientVersionID c) :
+		otbm(m), client(c) { }
 	MapVersionID otbm;
 	ClientVersionID client;
 };
 
-enum OtbFormatVersion : uint32_t
-{
+enum OtbFormatVersion : uint32_t {
 	OTB_VERSION_1 = 1,
 	OTB_VERSION_2 = 2,
 	OTB_VERSION_3 = 3,
 };
 
 // Represents an OTB version
-struct OtbVersion
-{
+struct OtbVersion {
 	// '8.60', '7.40' etc.
 	std::string name;
 	// What file format the OTB is in (version 1..3)
@@ -120,21 +118,12 @@ struct OtbVersion
 };
 
 // Formats for the metadata file
-enum DatFormat
-{
+enum DatFormat {
 	DAT_FORMAT_UNKNOWN,
-	DAT_FORMAT_74,
-	DAT_FORMAT_755,
-	DAT_FORMAT_78,
-	DAT_FORMAT_86,
-	DAT_FORMAT_96,
-	DAT_FORMAT_1010,
-	DAT_FORMAT_1050,
-	DAT_FORMAT_1057
+	DAT_FORMAT_11
 };
 
-enum DatFlags : uint8_t
-{
+enum DatFlags : uint8_t {
 	DatFlagGround = 0,
 	DatFlagGroundBorder = 1,
 	DatFlagOnBottom = 2,
@@ -181,8 +170,7 @@ enum DatFlags : uint8_t
 };
 
 // Represents a client file version
-struct ClientData
-{
+struct ClientData {
 	DatFormat datFormat;
 	uint32_t datSignature;
 	uint32_t sprSignature;
@@ -192,8 +180,7 @@ struct ClientData
 class ClientVersion;
 typedef std::vector<ClientVersion*> ClientVersionList;
 
-class ClientVersion
-{
+class ClientVersion {
 public:
 	ClientVersion(OtbVersion otb, std::string versionName, wxString path);
 	~ClientVersion() = default;
@@ -215,11 +202,13 @@ public:
 	static ClientVersionList getAllVersionsSupportedForClientVersion(ClientVersion* v);
 	static ClientVersion* getLatestVersion();
 
-	bool operator==(const ClientVersion& o) const { return otb.id == o.otb.id; }
+	bool operator==(const ClientVersion &o) const {
+		return otb.id == o.otb.id;
+	}
 
 	bool hasValidPaths();
 	bool loadValidPaths();
-	void setClientPath(const FileName& dir);
+	void setClientPath(const FileName &dir);
 
 	bool isVisible() const;
 	std::string getName() const;
@@ -232,9 +221,15 @@ public:
 
 	FileName getDataPath() const;
 	FileName getLocalDataPath() const;
-	FileName getClientPath() const { return client_path; }
-	wxFileName getMetadataPath() const { return metadata_path; }
-	wxFileName getSpritesPath() const { return sprites_path; }
+	FileName getClientPath() const {
+		return client_path;
+	}
+	wxFileName getMetadataPath() const {
+		return metadata_path;
+	}
+	wxFileName getSpritesPath() const {
+		return sprites_path;
+	}
 
 private:
 	OtbVersion otb;
@@ -259,7 +254,7 @@ private:
 	static void loadVersionExtensions(pugi::xml_node client_node);
 
 	// All versions
-	typedef std::map<ClientVersionID, ClientVersion*> VersionMap;
+	using VersionMap = std::map<ClientVersionID, ClientVersion*>;
 	static VersionMap client_versions;
 	static ClientVersion* latest_version;
 
@@ -268,9 +263,8 @@ private:
 	static OtbMap otb_versions;
 };
 
-inline int VersionComparisonPredicate(ClientVersion* a, ClientVersion* b)
-{
-	if(a->getID() < b->getID()) {
+inline int VersionComparisonPredicate(ClientVersion* a, ClientVersion* b) {
+	if (a->getID() < b->getID()) {
 		return 1;
 	}
 	return 0;

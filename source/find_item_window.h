@@ -29,15 +29,22 @@
 
 class FindDialogListBox;
 
-class FindItemDialog : public wxDialog
-{
+class FindItemDialog : public wxDialog {
 public:
 	enum SearchMode {
 		ServerIDs = 0,
 		ClientIDs,
 		Names,
 		Types,
+		TileTypes,
 		Properties,
+	};
+
+	enum SearchTileType {
+		ProtectionZone,
+		PlayerVsPlayer,
+		NoPlayerVsPlayer,
+		NoLogout
 	};
 
 	enum SearchItemType {
@@ -52,32 +59,38 @@ public:
 		Key
 	};
 
-	FindItemDialog(wxWindow* parent, const wxString& title, bool onlyPickupables = false);
+	FindItemDialog(wxWindow* parent, const wxString &title, bool onlyPickupables = false);
 	~FindItemDialog();
 
-	Brush* getResult() const { return result_brush; }
-	uint16_t getResultID() const { return result_id; }
+	Brush* getResult() const {
+		return result_brush;
+	}
+	uint16_t getResultID() const {
+		return result_id;
+	}
 
 	SearchMode getSearchMode() const;
+	SearchTileType getSearchTileType() const;
 	void setSearchMode(SearchMode mode);
 
 private:
 	void EnableProperties(bool enable);
 	void RefreshContentsInternal();
 
-	void OnOptionChange(wxCommandEvent& event);
-	void OnServerIdChange(wxCommandEvent& event);
-	void OnClientIdChange(wxCommandEvent& event);
-	void OnText(wxCommandEvent& event);
-	void OnTypeChange(wxCommandEvent& event);
-	void OnPropertyChange(wxCommandEvent& event);
-	void OnInputTimer(wxTimerEvent& event);
-	void OnClickOK(wxCommandEvent& event);
-	void OnClickCancel(wxCommandEvent& event);
+	void OnOptionChange(wxCommandEvent &event);
+	void OnServerIdChange(wxCommandEvent &event);
+	void OnClientIdChange(wxCommandEvent &event);
+	void OnText(wxCommandEvent &event);
+	void OnTypeChange(wxCommandEvent &event);
+	void OnPropertyChange(wxCommandEvent &event);
+	void OnInputTimer(wxTimerEvent &event);
+	void OnClickOK(wxCommandEvent &event);
+	void OnClickCancel(wxCommandEvent &event);
 
 	wxRadioBox* options_radio_box;
 
 	wxRadioBox* types_radio_box;
+	wxRadioBox* tileTypesRadioBox;
 
 	wxSpinCtrl* server_id_spin;
 	wxSpinCtrl* client_id_spin;
@@ -104,7 +117,7 @@ private:
 	wxButton* ok_button;
 	wxButton* cancel_button;
 	Brush* result_brush;
-	uint16_t result_id;
+	uint16_t result_id = 0;
 	bool only_pickupables;
 
 	DECLARE_EVENT_TABLE()

@@ -15,34 +15,27 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////////////
 
-#ifndef RME_EXTENSION_H_
-#define RME_EXTENSION_H_
+#ifndef RME_ENUMS_H
+#define RME_ENUMS_H
 
-#include "tileset.h"
-#include "client_version.h"
+enum Direction {
+	NORTH = 0,
+	EAST = 1,
+	SOUTH = 2,
+	WEST = 3,
 
-class MaterialsExtension {
-public:
-	MaterialsExtension(std::string name, std::string author, std::string description);
-	~MaterialsExtension();
-
-	void addVersion(const std::string &versionString);
-	bool isForVersion(uint16_t versionId);
-	std::string getVersionString();
-
-	std::string name;
-	std::string url;
-	std::string author;
-	std::string author_url;
-	std::string description;
-	bool for_all_versions;
-	ClientVersionList version_list;
-
-private:
-	MaterialsExtension(const MaterialsExtension &);
-	MaterialsExtension &operator=(const MaterialsExtension &);
+	DIRECTION_FIRST = NORTH,
+	DIRECTION_LAST = WEST
 };
 
-typedef std::vector<MaterialsExtension*> MaterialsExtensionList;
+enum Item_t : uint16_t {
+	ITEM_STAIRS = 469,
+	ITEM_NOTHING_SPECIAL = 470,
+
+	ITEM_FIRST = ITEM_STAIRS,
+	ITEM_LAST = ITEM_NOTHING_SPECIAL
+};
+
+IMPLEMENT_INCREMENT_OP(Direction)
 
 #endif

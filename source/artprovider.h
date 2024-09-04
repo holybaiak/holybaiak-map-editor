@@ -51,6 +51,7 @@
 #define ART_PICKUPABLE wxART_MAKE_ART_ID(ART_PICKUPABLE)
 #define ART_MOVEABLE wxART_MAKE_ART_ID(ART_MOVEABLE)
 #define ART_PICKUPABLE_MOVEABLE wxART_MAKE_ART_ID(ART_PICKUPABLE_MOVEABLE)
+#define ART_AVOIDABLE wxART_MAKE_ART_ID(ART_AVOIDABLE)
 
 #define ART_MOVE wxART_MAKE_ART_ID(ART_MOVE)
 #define ART_REMOTE wxART_MAKE_ART_ID(ART_REMOTE)
@@ -68,10 +69,9 @@
 #define ART_REPLACE wxART_MAKE_ART_ID(ART_REPLACE)
 #define ART_CHANGE wxART_MAKE_ART_ID(ART_CHANGE)
 
-class ArtProvider : public wxArtProvider
-{
+class ArtProvider : public wxArtProvider {
 protected:
-	virtual wxBitmap CreateBitmap(const wxArtID& id, const wxArtClient& client, const wxSize& size) override;
+	virtual wxBitmap CreateBitmap(const wxArtID &id, const wxArtClient &client, const wxSize &size) override;
 };
 
 #endif // RME_ART_PROVIDER_H_
